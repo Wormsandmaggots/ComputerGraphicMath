@@ -1,3 +1,0 @@
-E:/Projects/C++/aMatematykaGrafiki/cmake-build-debug/CMakeFiles/aMatematykaGrafiki.dir
-E:/Projects/C++/aMatematykaGrafiki/cmake-build-debug/CMakeFiles/edit_cache.dir
-E:/Projects/C++/aMatematykaGrafiki/cmake-build-debug/CMakeFiles/rebuild_cache.dir
