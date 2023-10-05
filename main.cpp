@@ -5,7 +5,7 @@ void Zadanie1();
 
 int main() {
     Zadanie1();
-    
+
     return 0;
 }
 
