@@ -1,10 +1,12 @@
 #include <iostream>
 #include "Vector.h"
+#include "Matrix.h"
 
 void Zadanie1();
+void Zadanie2();
 
 int main() {
-    Zadanie1();
+    Zadanie2();
 
     return 0;
 }
@@ -42,4 +44,12 @@ void Zadanie1()
     std::cout << "--------------------------------" << std::endl;
 
     std::cout << "Znormalizowany wektor ma postac: " << v_1.Normalize().ToString() << std::endl;
+}
+
+void Zadanie2()
+{
+    float tab[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+    Matrix m(tab);
+    m.Transponse();
+    std::cout << m.ToString();
 }

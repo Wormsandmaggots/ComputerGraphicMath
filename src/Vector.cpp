@@ -7,20 +7,12 @@
 #include "Vector.h"
 #include "cmath"
 
-Vector::Vector(float x, float y, float z) {
-    _x = x;
-    _y = y;
-    _z = z;
-}
+Vector::Vector(float x, float y, float z) : _x(x), _y(y), _z(z) {}
 
-Vector::Vector(Vector & another) {
-    x(another.x());
-    y(another.y());
-    z(another.z());
-}
+Vector::Vector(const Vector & another) : _x(another._x), _y(another._y), _z(another._z) {}
 
 float Vector::Len() const {
-    return sqrt(pow(x(), 2) + pow(y(), 2) + pow(z(), 2));
+    return sqrt(pow(_x, 2) + pow(_y, 2) + pow(_z, 2));
 }
 
 Vector Vector::Normalize() const {
@@ -28,89 +20,89 @@ Vector Vector::Normalize() const {
 }
 
 float Vector::DotProduct(const Vector & another) const {
-    return x() * another.x() + y() * another.y() + z() * another.z();
+    return _x * another._x + _y * another._y + _z * another._z;
 }
 
 //cross product daje wketor prostopadły do płaszczyzny
 //czytaj, dwóch wektorów
 Vector Vector::CrossProduct(const Vector & another) const {
-    return       {y() * another.z() - z() * another.y(),
-                  z() * another.x() - x() * another.z(),
-                  x() * another.y() - y() * another.x()};
+    return       {_y * another._z - _z * another._y,
+                  _z * another._x - _x * another._z,
+                  _x * another._y - _y * another._x};
 }
 
 Vector Vector::operator/(const float & val) const {
     if (val == 0) throw std::invalid_argument("Cannot divide by zero");
 
-    return {x() / val, y() / val, z() / val};
+    return {_x / val, _y / val, _z / val};
 }
 
 Vector Vector::operator*(const float & val) const {
-    return {x() * val, y() * val, z() * val};
+    return {_x * val, _y * val, _z * val};
 }
 
 Vector Vector::operator+(const Vector & val) const {
-    return {x() + val.x(), y() + val.y(), z() + val.z()};
+    return {_x + val._x, _y + val._y, _z + val._z};
 }
 
 Vector Vector::operator-(const Vector & val) const {
-    return {x() - val.x(), y() - val.y(), z() - val.z()};
+    return {_x - val._x, _y - val._y, _z - val._z};
 }
 
 Vector& Vector::operator=(const Vector & val) {
 
     if(&val != this)
     {
-        x(val.x());
-        y(val.y());
-        z(val.z());
+        x(val._x);
+        y(val._y);
+        z(val._z);
     }
 
     return *this;
 }
 
 Vector& Vector::operator+=(const Vector & val) {
-    x(x() + val.x());
-    y(y() + val.y());
-    z(z() + val.z());
+    x(_x + val._x);
+    y(_y + val._y);
+    z(_z + val._z);
     return *this;
 }
 
 Vector& Vector::operator-=(const Vector & val) {
-    x(x() - val.x());
-    y(y() - val.y());
-    z(z() - val.z());
+    x(_x - val._x);
+    y(_y - val._y);
+    z(_z - val._z);
     return *this;
 }
 
 Vector &Vector::operator*=(const float & val) {
-    x(x() * val);
-    y(y() * val);
-    z(z() * val);
+    x(_x * val);
+    y(_y * val);
+    z(_z * val);
     return *this;
 }
 
 Vector &Vector::operator/=(const float & val) {
     if (val == 0) throw std::invalid_argument("Cannot divide by zero");
 
-    x(x() / val);
-    y(y() / val);
-    z(z() / val);
+    x(_x / val);
+    y(_y / val);
+    z(_z / val);
     return *this;
 }
 
 bool Vector::operator==(const Vector & another) const {
 
     return &another == this ||
-           x() == another.x() &&
-           y() == another.y() &&
-           z() == another.z();
+           _x == another._x &&
+           _y == another._y &&
+           _z == another._z;
 }
 
 std::string Vector::ToString() const {
     std::stringstream ss;
 
-    ss << "Vector: x = " << x() << ", y = " << y() << ", z = " << z();
+    ss << "Vector: x = " << _x << ", y = " << _y << ", z = " << _z;
     return ss.str();
 }
 

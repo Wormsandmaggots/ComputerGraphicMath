@@ -5,10 +5,12 @@
 #ifndef AMATEMATYKAGRAFIKI_VECTOR_H
 #define AMATEMATYKAGRAFIKI_VECTOR_H
 
+#include "string"
+
 class Vector {
 public:
     Vector(float, float, float = 0.);
-    Vector(Vector&);
+    Vector(const Vector&);
     virtual ~Vector() = default;
 
     inline float x() const { return _x; };
