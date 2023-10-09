@@ -7,6 +7,9 @@
 #include <sstream>
 #include <cmath>
 
+float Calculate3x3Det(float arr[9]);
+float* GetMatrix3x3From4x4(const Matrix & another, int i, int j);
+
 Matrix::Matrix(const float values[SIZE]) {
     memcpy(_data, values, SIZE * sizeof(float));
 }
@@ -49,7 +52,7 @@ Matrix Matrix::operator*(const float & val) const {
 }
 
 Matrix Matrix::operator*(const Matrix & another) const {
-    float newTab[SIZE];
+    float newTab[SIZE] = {0};
 
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {
@@ -131,13 +134,13 @@ void Matrix::Translate(const Vector & vec) {
     _data[11] = vec.z();
 }
 
-void Matrix::Scale(const Vector & scale) {
+void Matrix::SetScale(const Vector & scale) {
     _data[0] = scale.x();
     _data[5] = scale.y();
     _data[10] = scale.z();
 }
 
-void Matrix::Scale(const float & scale) {
+void Matrix::SetScale(const float & scale) {
     _data[0] = scale;
     _data[5] = scale;
     _data[10] = scale;
@@ -187,6 +190,118 @@ void Matrix::Rotate(const float & angle, const Vector & axis) {
     _data[10] = nor.z() * nor.z() + cosAngle * (1 - nor.z() * nor.z());
 }
 
+float Calculate3x3Det(float arr[9])
+{
+    float val1 = arr[0] * (arr[4] * arr[8] - arr[5] * arr[7]);
+    float val2 = arr[1] * (arr[3] * arr[8] - arr[5] * arr[6]);
+    float val3 = arr[2] * (arr[3] * arr[7] - arr[4] * arr[6]);
+
+    return val1 - val2 + val3;
+}
+
+void Matrix::Inverse(const Matrix & another)
+{
+    float val1 = another[0] * Calculate3x3Det(new float[]{another[5], another[6], another[7],
+                                                          another[9], another[10], another[11],
+                                                          another[13], another[14], another[15]});
+
+    float val2 = another[1] * Calculate3x3Det(new float[]{another[6], another[7], another[4],
+                                                         another[10], another[11], another[8],
+                                                         another[14], another[15], another[12]});
+
+    float val3 = another[2] * Calculate3x3Det(new float[]{another[4], another[5], another[7],
+                                                          another[8], another[9], another[11],
+                                                          another[12], another[13], another[15]});
+
+    float val4 = another[3] * Calculate3x3Det(new float[]{another[4], another[5], another[6],
+                                                          another[8], another[9], another[10],
+                                                          another[12], another[13], another[14]});
+
+    float det = val1 - val2 + val3 - val4;
+
+    if(det == 0) return;
+
+    float newTab[16] = {0};
+
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < 4; j++)
+        {
+            int s = -1;
+
+            if((i + j) % 2 == 0)
+                s = 1;
+
+            newTab[i * 4 + j] = (float)s * Calculate3x3Det(GetMatrix3x3From4x4(another, i, j));
+        }
+    }
+
+    Matrix m(newTab);
+
+    m.Transponse();
+
+    *this = m * (1.f/det);
+}
+
+Matrix& Matrix::operator=(const Matrix & another) {
+
+    if(&another != this)
+    {
+        for(int i = 0; i < SIZE; i++)
+        {
+            _data[i] = another[i];
+        }
+    }
+
+    return *this;
+}
+
+void Matrix::Inverse() {
+    Inverse(*this);
+}
+
+float* GetMatrix3x3From4x4(const Matrix & another, int i, int j)
+{
+    float *arr = new float[9]{0};
+
+    int ctr = 0;
+
+    for(int k = 0; k < 4; k++)
+    {
+        if(k == i)
+            continue;
+
+        for(int l = 0; l < 4; l++)
+        {
+            if(l == j)
+                continue;
+
+            arr[ctr] = another[k * 4 + l];
+            ctr++;
+        }
+    }
+
+    return arr;
+}
+
+
+//void Matrix::Transponse(Matrix & matrix) {
+//    float temp;
+//
+//    for(int i = 0; i < 4; i++)
+//    {
+//        for(int j = i; j < 4; j++)
+//        {
+//            if(i == j) continue;
+//
+//            temp = matrix[i * 4 + j];
+//            matrix._data[i * 4 + j] = matrix[j * 4 + i];
+//            matrix._data[j * 4 + i] = temp;
+//        }
+//    }
+//}
+
+
 //void Matrix::Inverse(const Matrix & another) {
 //    float t1 = another[0] * another[4];
 //    float t2 = another[0] * another[7];
@@ -215,8 +330,3 @@ void Matrix::Rotate(const float & angle, const Vector & axis) {
 //
 //}
 //
-//void Matrix::Inverse() {
-//    Inverse(*this);
-//}
-
-

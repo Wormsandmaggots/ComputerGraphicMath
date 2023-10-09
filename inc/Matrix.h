@@ -19,18 +19,20 @@ public:
     Matrix operator-(const Matrix&) const;
     Matrix operator*(const float&) const;
     Matrix operator*(const Matrix&) const;
+    Matrix& operator=(const Matrix&);
     float operator[](int i) const;
     bool operator==(const Matrix&) const;
 
     std::string ToString() const;
 
     static Matrix Indentity();
+    //inverse should work like an operator
     void Inverse(const Matrix&);
     void Inverse();
     void Transponse();
     void Translate(const Vector&);
-    void Scale(const Vector&);
-    void Scale(const float&);
+    void SetScale(const Vector&);
+    void SetScale(const float&);
     void RotX(const float&);
     void RotY(const float&);
     void RotZ(const float&);

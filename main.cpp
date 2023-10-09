@@ -48,8 +48,63 @@ void Zadanie1()
 
 void Zadanie2()
 {
-    float tab[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-    Matrix m(tab);
-    m.Transponse();
-    std::cout << m.ToString();
+    float tab[16] = {1,2,0,-3,
+                     3,-4,1,0,
+                     1,2,3,0,
+                     1,4,2,3};
+
+    float tab2[16] = {0, 1, 2, 3,
+                     4, 5, 6, 7,
+                     8, 9, 10, 11,
+                     12, 13, 14, 15};
+
+    float tab3[16] = {1,1,1,1,
+                      1,1,1,1,
+                      1,1,1,1,
+                      1,1,1,1};
+
+    float tab4[16] = {1, 2, 3, 4,
+                      2, 3, 1, 2,
+                      1, 1, 1, -1,
+                      1, 0, -2, -6};
+
+    Matrix m1(tab);
+    Matrix m2(tab2);
+    Matrix m3(tab3);
+    Matrix m4(tab4);
+
+    std::cout << "Dodanie dwoch macierzy:\n" << (m1 + m3).ToString() << std::endl;
+    std::cout << "Odjecie dwoch macierzy:\n" << (m1 - m3).ToString() << std::endl;
+    std::cout << "Pomnozenie dwoch macierzy:\n" << (m1 * m3).ToString() << std::endl;
+    std::cout << "Pomnozenie macierzy przez skalar: \n" << (m3 * 3).ToString() << std::endl;
+    std::cout << "Macierz jednostkowa: \n" << Matrix::Indentity().ToString() << std::endl;
+
+    m4.Inverse();
+    std::cout << "Odwrocona macierz: \n" << m4.ToString() << std::endl;
+
+    m1.Translate(Vector(0,3,3));
+    std::cout << "Macierz po translacji: \n" << m1.ToString() << std::endl;
+
+    m1.SetScale(2);
+    std::cout << "Macierz po ustawieniu skali: \n" << m1.ToString() << std::endl;
+
+    m1.SetScale(Vector(1,2,3));
+    std::cout << "Macierz po ustawieniu skali: \n" << m1.ToString() << std::endl;
+
+    m1.RotX(45);
+    std::cout << "Macierz po zrotowaniu w x: \n" << m1.ToString() << std::endl;
+
+    m1.RotY(45);
+    std::cout << "Macierz po zrotowaniu w y: \n" << m1.ToString() << std::endl;
+
+    m1.RotZ(45);
+    std::cout << "Macierz po zrotowaniu w z: \n" << m1.ToString() << std::endl;
+
+    m1.Rotate(45, Vector(1,2,3));
+    std::cout << "Macierz po zrotowaniu wzdluz osi: \n" << m1.ToString() << std::endl;
+}
+
+void Zadanie3()
+{
+
 }
