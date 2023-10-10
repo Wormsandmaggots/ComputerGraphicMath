@@ -67,6 +67,8 @@ bool Quaternion::operator==(const Quaternion & another) const {
 //    _vec *= qMinusOne;
 //}
 
+//wydaje się działać
+//sprawdzone na chłopski rozum rysując układ współrzędnych
 void Quaternion::Rotate(float angle, const Vector & axis)
 {
     Quaternion q = Quaternion(Vector(axis.Normalize() * sin(M_PI * angle / 180 / 2)), cos(M_PI * angle / 180 / 2));
