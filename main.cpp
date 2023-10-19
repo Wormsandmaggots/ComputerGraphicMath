@@ -2,13 +2,14 @@
 #include "Vector.h"
 #include "Matrix.h"
 #include "Quaternion.h"
+#include <fstream>
 
 void Zadanie1();
 void Zadanie2();
 void Zadanie3();
 
 int main() {
-    Zadanie3();
+    Zadanie1();
 
     return 0;
 }
@@ -18,34 +19,38 @@ void Zadanie1()
     Vector v(1, 2, 3);
     Vector v2(3, 2, 1);
 
-    std::cout << v.ToString() << "\n" << v2.ToString() << "\nCzy przemiennosc dodawania dziala?" << std::endl;
+    std::ofstream outFile("output.txt");  // Utwórz obiekt pliku wyjściowego
 
-    std::cout << ((v + v2) == (v2 + v) ? "Tak" : "Nie") << std::endl;
+    // Utwórz pomocniczą funkcję, która jednocześnie wypisuje na ekran i zapisuje do pliku
+    auto log = [&outFile](const std::string& message) {
+        std::cout << message;
+        outFile << message;
+    };
 
-    std::cout << "--------------------------------" << std::endl;
+    log(v.ToString() + "\n" + v2.ToString() + "\nCzy przemiennosc dodawania dziala?\n");
+    log(std::string((v + v2) == (v2 + v) ? "Tak" : "Nie") + "\n");
+    log("--------------------------------\n");
 
     v = {0, 3, 0};
     v2 = {5, 5, 0};
 
-    std::cout << "Kat miedzy " << v.ToString() << " oraz " << v2.ToString() << " jest rowny ";
-    std::cout << v.AngleBetween(v2) << " stopni" << std::endl;
+    log("Kat miedzy " + v.ToString() + " oraz " + v2.ToString() + " jest rowny ");
+    log(std::to_string(v.AngleBetween(v2)) + " stopni\n");
 
-    std::cout << "--------------------------------" << std::endl;
+    log("--------------------------------\n");
 
     v = {4, 5, 1};
     v2 = {4, 1, 3};
 
     Vector v_1 = v.CrossProduct(v2);
-    //jeśli iloczyn skalarny(dot product) = 0 to wektory prostopadłe
 
-    std::cout << "Czy " << v_1.ToString() << " jest prostopadly do " << v.ToString() <<
-              " oraz " << v2.ToString() << std::endl;
+    log("Czy " + v_1.ToString() + " jest prostopadly do " + v.ToString() + " oraz " + v2.ToString() + "\n");
+    log(std::string(v.DotProduct(v_1) == 0 ? "Tak" : "Nie") + "\n");
 
-    std::cout << (v.DotProduct(v_1) == 0 ? "Tak" : "Nie") << std::endl;
+    log("--------------------------------\n");
+    log("Znormalizowany wektor ma postac: " + v_1.Normalize().ToString() + "\n");
 
-    std::cout << "--------------------------------" << std::endl;
-
-    std::cout << "Znormalizowany wektor ma postac: " << v_1.Normalize().ToString() << std::endl;
+    outFile.close();  // Zamknij plik
 }
 
 void Zadanie2() {
