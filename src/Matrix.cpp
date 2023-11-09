@@ -260,11 +260,42 @@ void Matrix::Inverse() {
     Inverse(*this);
 }
 
-Vector Matrix::RotateVecInY(Vector &v, float angle) const {
-    float x = v.x() * cos(M_PI * angle / 180) + v.z() * sin(M_PI * angle / 180);
-    float y = v.y();
-    float z = -v.x() * sin(M_PI * angle / 180) + v.z() * cos(M_PI * angle / 180);
-    return {x,y,z};
+Vector Matrix::operator*(const Vector & v) const {
+
+    return Vector(0, 0);
+}
+
+float* Matrix::RotateVec(Vector & v, float w) const {
+    float result[4] = {0};
+
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            switch (j) {
+                case 0:
+                {
+                    result[i] += _data[i * 4 + j] * v.x();
+                    break;
+                }
+                case 1:
+                {
+                    result[i] += _data[i * 4 + j] * v.y();
+                    break;
+                }
+                case 2:
+                {
+                    result[i] += _data[i * 4 + j] * v.z();
+                    break;
+                }
+                case 3:
+                {
+                    result[i] += _data[i * 4 + j] * w;
+                    break;
+                }
+            }
+        }
+    }
+
+    return result;
 }
 
 float* GetMatrix3x3From4x4(const Matrix & another, int i, int j)

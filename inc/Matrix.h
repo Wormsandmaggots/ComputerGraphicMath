@@ -19,6 +19,7 @@ public:
     Matrix operator-(const Matrix&) const;
     Matrix operator*(const float&) const;
     Matrix operator*(const Matrix&) const;
+    Vector operator*(const Vector&) const;
     Matrix& operator=(const Matrix&);
     float operator[](int i) const;
     bool operator==(const Matrix&) const;
@@ -37,7 +38,7 @@ public:
     void RotY(const float&);
     void RotZ(const float&);
     void Rotate(const float&, const Vector&);
-    Vector RotateVecInY(Vector&, float angle) const;
+    float* RotateVec(Vector&, float w = 1) const;
 
 private:
     float _data[SIZE] = {0};
