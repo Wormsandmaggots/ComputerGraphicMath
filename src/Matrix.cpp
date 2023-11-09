@@ -150,13 +150,13 @@ void Matrix::RotX(const float & angle) {
     _data[5] = (float)cos(M_PI * angle / 180);
     _data[6] = (float)sin(M_PI * angle / 180);
 
-    _data[9] = -_data[5];
-    _data[10] = -_data[6];
+    _data[9] = -_data[6];
+    _data[10] = _data[5];
 }
 
 void Matrix::RotY(const float & angle) {
     _data[0] = (float)cos(M_PI * angle / 180);
-    _data[2] = (float)sin(M_PI * angle / 180);
+    _data[2] = -(float)sin(M_PI * angle / 180);
 
     _data[8] = -_data[2];
     _data[10] = _data[0];
@@ -164,9 +164,9 @@ void Matrix::RotY(const float & angle) {
 
 void Matrix::RotZ(const float & angle) {
     _data[0] = (float)cos(M_PI * angle / 180);
-    _data[4] = (float)sin(M_PI * angle / 180);
+    _data[1] = (float)sin(M_PI * angle / 180);
 
-    _data[1] = -_data[4];
+    _data[4] = -_data[1];
     _data[5] = _data[0];
 }
 
