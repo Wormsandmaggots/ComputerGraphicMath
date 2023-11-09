@@ -113,7 +113,7 @@ void Zadanie2() {
     m1.Rotate(45, Vector(1, 2, 3));
     out << "Macierz po zrotowaniu wzdluz osi: \n" << m1.ToString() << std::endl;
 
-    float newTab[16] = {1, 0, 0, 0,
+    float newTab[16] = {1, 0, 0, 1,
                         0, 1, 0, 0,
                         0, 0, 1, 0,
                         0, 0, 0, 1};

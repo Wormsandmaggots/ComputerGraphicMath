@@ -262,7 +262,7 @@ void Matrix::Inverse() {
 
 Vector Matrix::RotateVecInY(Vector &v, float angle) const {
     float x = v.x() * cos(M_PI * angle / 180) + v.z() * sin(M_PI * angle / 180);
-    float y = y;
+    float y = v.y();
     float z = -v.x() * sin(M_PI * angle / 180) + v.z() * cos(M_PI * angle / 180);
     return {x,y,z};
 }
