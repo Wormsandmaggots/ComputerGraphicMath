@@ -74,6 +74,8 @@ void Zadanie2() {
                       1, 0, -2, -6};
 
     Matrix m1(tab);
+    Matrix m12(tab);
+    Matrix m13(tab);
     Matrix m2(tab2);
     Matrix m3(tab3);
     Matrix m4(tab4);
@@ -102,11 +104,11 @@ void Zadanie2() {
     m1.RotX(45);
     out << "Macierz po zrotowaniu w x: \n" << m1.ToString() << std::endl;
 
-    m1.RotY(45);
-    out << "Macierz po zrotowaniu w y: \n" << m1.ToString() << std::endl;
+    m12.RotY(45);
+    out << "Macierz po zrotowaniu w y: \n" << m12.ToString() << std::endl;
 
-    m1.RotZ(45);
-    out << "Macierz po zrotowaniu w z: \n" << m1.ToString() << std::endl;
+    m13.RotZ(45);
+    out << "Macierz po zrotowaniu w z: \n" << m13.ToString() << std::endl;
 
     m1.Rotate(45, Vector(1, 2, 3));
     out << "Macierz po zrotowaniu wzdluz osi: \n" << m1.ToString() << std::endl;
