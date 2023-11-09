@@ -9,7 +9,7 @@ void Zadanie2();
 void Zadanie3();
 
 int main() {
-    Zadanie1();
+    Zadanie2();
 
     return 0;
 }
@@ -19,9 +19,8 @@ void Zadanie1()
     Vector v(1, 2, 3);
     Vector v2(3, 2, 1);
 
-    std::ofstream outFile("output.txt");  // Utwórz obiekt pliku wyjściowego
+    std::ofstream outFile("output.txt");
 
-    // Utwórz pomocniczą funkcję, która jednocześnie wypisuje na ekran i zapisuje do pliku
     auto log = [&outFile](const std::string& message) {
         std::cout << message;
         outFile << message;
@@ -50,7 +49,7 @@ void Zadanie1()
     log("--------------------------------\n");
     log("Znormalizowany wektor ma postac: " + v_1.Normalize().ToString() + "\n");
 
-    outFile.close();  // Zamknij plik
+    outFile.close();
 }
 
 void Zadanie2() {
@@ -79,35 +78,38 @@ void Zadanie2() {
     Matrix m3(tab3);
     Matrix m4(tab4);
 
-    std::cout << "Dodanie dwoch macierzy:\n" << (m1 + m3).ToString() << std::endl;
-    std::cout << "Odjecie dwoch macierzy:\n" << (m1 - m3).ToString() << std::endl;
-    std::cout << "Pomnozenie dwoch macierzy:\n" << (m1 * m3).ToString() << std::endl;
-    std::cout << "Pomnozenie macierzy przez skalar: \n" << (m3 * 3).ToString() << std::endl;
-    std::cout << "Macierz jednostkowa: \n" << Matrix::Indentity().ToString() << std::endl;
+    std::ofstream out("output.txt");  // Utwórz i otwórz strumień plikowy
+
+    // Zapisz do pliku zamiast wyświetlać na terminalu
+    out << "Dodanie dwoch macierzy:\n" << (m1 + m3).ToString() << std::endl;
+    out << "Odjecie dwoch macierzy:\n" << (m1 - m3).ToString() << std::endl;
+    out << "Pomnozenie dwoch macierzy:\n" << (m1 * m3).ToString() << std::endl;
+    out << "Pomnozenie macierzy przez skalar: \n" << (m3 * 3).ToString() << std::endl;
+    out << "Macierz jednostkowa: \n" << Matrix::Indentity().ToString() << std::endl;
 
     m4.Inverse();
-    std::cout << "Odwrocona macierz: \n" << m4.ToString() << std::endl;
+    out << "Odwrocona macierz: \n" << m4.ToString() << std::endl;
 
     m1.Translate(Vector(0, 3, 3));
-    std::cout << "Macierz po translacji: \n" << m1.ToString() << std::endl;
+    out << "Macierz po translacji: \n" << m1.ToString() << std::endl;
 
     m1.SetScale(2);
-    std::cout << "Macierz po ustawieniu skali: \n" << m1.ToString() << std::endl;
+    out << "Macierz po ustawieniu skali: \n" << m1.ToString() << std::endl;
 
     m1.SetScale(Vector(1, 2, 3));
-    std::cout << "Macierz po ustawieniu skali: \n" << m1.ToString() << std::endl;
+    out << "Macierz po ustawieniu skali: \n" << m1.ToString() << std::endl;
 
     m1.RotX(45);
-    std::cout << "Macierz po zrotowaniu w x: \n" << m1.ToString() << std::endl;
+    out << "Macierz po zrotowaniu w x: \n" << m1.ToString() << std::endl;
 
     m1.RotY(45);
-    std::cout << "Macierz po zrotowaniu w y: \n" << m1.ToString() << std::endl;
+    out << "Macierz po zrotowaniu w y: \n" << m1.ToString() << std::endl;
 
     m1.RotZ(45);
-    std::cout << "Macierz po zrotowaniu w z: \n" << m1.ToString() << std::endl;
+    out << "Macierz po zrotowaniu w z: \n" << m1.ToString() << std::endl;
 
     m1.Rotate(45, Vector(1, 2, 3));
-    std::cout << "Macierz po zrotowaniu wzdluz osi: \n" << m1.ToString() << std::endl;
+    out << "Macierz po zrotowaniu wzdluz osi: \n" << m1.ToString() << std::endl;
 
     float newTab[16] = {1, 0, 0, 1,
                         0, 1, 0, 0,
@@ -116,15 +118,15 @@ void Zadanie2() {
 
     Matrix rot(newTab);
     rot.RotY(90);
+    out << "Zrotowana macierz: \n" << rot.ToString() << std::endl;
 
-    std::cout << "Zrotowana macierz: \n" << rot.ToString() << std::endl;
-
-    std::cout << "Czy dziala przemiennosc mnozenia macierzy? \n" << std::endl;
-
+    out << "Czy dziala przemiennosc mnozenia macierzy? \n";
     if ((m1 * m2) == (m2 * m1))
-        std::cout << "Tak" << std::endl;
+        out << "Tak" << std::endl;
     else
-        std::cout << "Nie" << std::endl;
+        out << "Nie" << std::endl;
+
+    out.close();  // Zamknij strumień plikowy
 }
 
 void Zadanie3()
