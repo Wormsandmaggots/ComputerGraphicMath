@@ -129,9 +129,9 @@ float Matrix::operator[](int i) const {
 }
 
 void Matrix::Translate(const Vector & vec) {
-    _data[3] = vec.x();
-    _data[7] = vec.y();
-    _data[11] = vec.z();
+    _data[12] = vec.x();
+    _data[13] = vec.y();
+    _data[14] = vec.z();
 }
 
 void Matrix::SetScale(const Vector & scale) {
@@ -258,6 +258,13 @@ Matrix& Matrix::operator=(const Matrix & another) {
 
 void Matrix::Inverse() {
     Inverse(*this);
+}
+
+Vector Matrix::RotateVecInY(Vector &v, float angle) const {
+    float x = v.x() * cos(M_PI * angle / 180) + v.z() * sin(M_PI * angle / 180);
+    float y = y;
+    float z = -v.x() * sin(M_PI * angle / 180) + v.z() * cos(M_PI * angle / 180);
+    return {x,y,z};
 }
 
 float* GetMatrix3x3From4x4(const Matrix & another, int i, int j)

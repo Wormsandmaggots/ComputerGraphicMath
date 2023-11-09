@@ -37,6 +37,7 @@ public:
     void RotY(const float&);
     void RotZ(const float&);
     void Rotate(const float&, const Vector&);
+    Vector RotateVecInY(Vector&, float angle) const;
 
 private:
     float _data[SIZE] = {0};

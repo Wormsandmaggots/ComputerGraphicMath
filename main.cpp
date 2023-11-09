@@ -111,14 +111,23 @@ void Zadanie2() {
     m1.Rotate(45, Vector(1, 2, 3));
     out << "Macierz po zrotowaniu wzdluz osi: \n" << m1.ToString() << std::endl;
 
-    float newTab[16] = {1, 0, 0, 1,
+    float newTab[16] = {1, 0, 0, 0,
                         0, 1, 0, 0,
                         0, 0, 1, 0,
                         0, 0, 0, 1};
 
     Matrix rot(newTab);
     rot.RotY(90);
-    out << "Zrotowana macierz: \n" << rot.ToString() << std::endl;
+//    out << "Zrotowana macierz: \n" << rot.ToString() << std::endl;
+
+//    Quaternion q(1,0,0,1);
+//    q.Rotate(90, Vector(0,1,0));
+//
+//    out << q.ToString() << "\n\n";
+
+    Vector v(1,0,0);
+
+    out << "wektor zrotowany o 90 stopni w y:" << rot.RotateVecInY(v, 90).ToString() << "\n\n";
 
     out << "Czy dziala przemiennosc mnozenia macierzy? \n";
     if ((m1 * m2) == (m2 * m1))
