@@ -266,7 +266,7 @@ Vector Matrix::operator*(const Vector & v) const {
 }
 
 float* Matrix::RotateVec(Vector & v, float w) const {
-    float result[4] = {0};
+    float* result = new float[4]{0};
 
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {

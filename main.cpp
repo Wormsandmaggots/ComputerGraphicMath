@@ -131,12 +131,14 @@ void Zadanie2() {
 
     float* x = rot.RotateVec(v);
 
-    out << "wektor zrotowany o 90 stopni w y:";
+    out << "wektor zrotowany o 90 stopni w y: ";
 
     for (int i = 0; i < 4; i++)
     {
-        out << x[i];
+        out << x[i] << " ";
     }
+
+    out << "\n\n";
 
     out << "Czy dziala przemiennosc mnozenia macierzy? \n";
     if ((m1 * m2) == (m2 * m1))
