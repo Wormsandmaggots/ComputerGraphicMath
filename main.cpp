@@ -9,7 +9,7 @@ void Zadanie2();
 void Zadanie3();
 
 int main() {
-    Zadanie2();
+    Zadanie3();
 
     return 0;
 }
@@ -151,23 +151,27 @@ void Zadanie2() {
 
 void Zadanie3()
 {
+    std::ofstream outfile("output.txt"); // Otwarcie pliku output.txt do zapisu
+
     Quaternion q1(Vector(1, 2, 3), 2);
     Quaternion q2(Vector(4, 6, 8), 3);
     Quaternion q3(Vector(-1, -1, -1), 0);
 
-    std::cout << "Dodawanie quaternionow: " << (q1 + q2).ToString() << std::endl;
-    std::cout << "Odejmowanie quaternionow: " << (q1 - q2).ToString() << std::endl;
-    std::cout << "Mnozenie quaternionow: " << (q1 * q2).ToString() << std::endl;
-    std::cout << "Dzielenie quaternionow: " << (q1 / q2).ToString() << std::endl;
+    outfile << "Dodawanie quaternionow: " << (q1 + q2).ToString() << std::endl;
+    outfile << "Odejmowanie quaternionow: " << (q1 - q2).ToString() << std::endl;
+    outfile << "Mnozenie quaternionow: " << (q1 * q2).ToString() << std::endl;
+    outfile << "Dzielenie quaternionow: " << (q1 / q2).ToString() << std::endl;
 
     q3.Rotate(270, {1,0,0});
 
-    std::cout << "Obrot wektora wzdluz osi x: " << q3.ToString() << std::endl;
+    outfile << "Obrot wektora wzdluz osi x: " << q3.ToString() << std::endl;
 
-    std::cout << "Czy przemiennosc mnozenia quaternionow dziala? " << std::endl;
+    outfile << "Czy przemiennosc mnozenia quaternionow dziala? " << std::endl;
 
     if((q1 * q2) == (q2 * q1))
-        std::cout << "Tak";
+        outfile << "Tak";
     else
-        std::cout << "Nie";
+        outfile << "Nie";
+
+    outfile.close(); // Zamknięcie pliku
 }

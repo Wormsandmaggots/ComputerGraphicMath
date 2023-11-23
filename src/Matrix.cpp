@@ -273,7 +273,7 @@ float* Matrix::RotateVec(Vector & v, float w) const {
             switch (j) {
                 case 0:
                 {
-                    result[i] += _data[i * 4 + j] * v.x();
+                    result[i] += _data[i * 4 + j] * v.x();  //suma iloczynów wszystkich elementów danego wiersza macierzy i odpowiednich składowych wektora
                     break;
                 }
                 case 1:
