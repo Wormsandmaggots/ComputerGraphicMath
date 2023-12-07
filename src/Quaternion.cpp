@@ -26,16 +26,23 @@ Quaternion Quaternion::operator-(const Quaternion & another) const {
 }
 
 Quaternion Quaternion::operator/(const Quaternion & another) const {
-    float div = another._real * another._real + another._vec.DotProduct(another._vec);
+    float mod = another._real * another._real + another._vec.DotProduct(another._vec);
 
-    if(div == 0)
+    if(mod == 0)
         throw std::invalid_argument("Cannot divide by zero");
 
-    float r = _real * another._real + _vec.DotProduct(another._vec);
-    Vector vec = (another._vec * -_real + _vec * another._real - _vec.CrossProduct(another._vec)) / div;
+    // Ręczne tworzenie sprzężenia kwaternionu another
+    Vector negatedVec(-another._vec.x(), -another._vec.y(), -another._vec.z());
+    Quaternion conj(negatedVec, another._real);
 
-    return {vec, r};
+    // Mnożenie this przez sprzężenie another
+    Quaternion result = *this * conj;
+
+    // Dzielenie przez moduł kwaternionu another
+    return {result._vec / mod, result._real / mod};
 }
+
+
 
 Quaternion& Quaternion::operator=(const Quaternion & another) {
     if(&another == this)
