@@ -18,7 +18,6 @@ public:
     // Konstruktor z wektorem środka i promieniem
     Sphere(const Vector& p, float r) : c(p), r(r) {}
 
-    // Metoda ToString dla reprezentacji tekstowej sfery
     std::string ToString() const {
         std::stringstream ss;
         ss << "Sphere: Center = " << c.ToString() << ", Radius = " << r;

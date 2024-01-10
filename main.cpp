@@ -7,7 +7,7 @@
 #include "Plane.h"
 #include "Segment.h"
 #include "Sphere.h"
-#include "Utils.h"
+#include "Intersections.h"
 #include <cmath>
 #define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006
 
@@ -209,54 +209,39 @@ void Zadanie4()
         std::cerr << "Nie można otworzyć pliku do zapisu!" << std::endl;
     }
 
-    // Zadanie 1
-    {
-        outputFile << "Zad 1. Punkt przeciecia prostych: " << Utils::LineIntersect(line1, line2).ToString() << "\n";
-    }
+    // Zadanie 1 Znajdź punkt przecięcia prostych
+    outputFile << "Zad 1. Punkt przeciecia prostych: " << Intersections::LineIntersect(line1, line2).ToString() << "\n";
 
-    // Zadanie 2
-    {
-        outputFile << "Zad 2. Kat miedzy prostymi: " << Utils::LineAngle(line1, line2) << " stopni\n";
-    }
 
-    // Zadanie 3
-    {
-        outputFile << "Zad 3. Punkt przeciecia prostej i plaszczyzny: "
-                   << Utils::LinePlaneIntersect(line3, plane1).ToString() << "\n";
-    }
+    // Zadanie 2 Znajdź kąt między prostymi z zadania 1
+    outputFile << "Zad 2. Kat miedzy prostymi: " << Intersections::LineAngle(line1, line2) << " stopni\n";
 
-    //ZADANIE 4
-    {
-        line3 = Line({3, -1, 2}, {-2, 2, -1});
-        plane1 = Plane(2, 3, 3, -8);
-        outputFile << "Zad 4. Kat miedzy prosta, a plaszczyzna: " << Utils::LinePlaneAngle(line3, plane1)
+    // Zadanie 3 Znajdź punkt przecięcia pomiędzy prostą a płaszczyną
+    outputFile << "Zad 3. Punkt przeciecia prostej i plaszczyzny: "
+               << Intersections::LinePlaneIntersect(line3, plane1).ToString() << "\n";
+
+    // ZADANIE 4 Znajdź kąt pomiędzy prostą a płaszczyzną z zadania 2
+    line3 = Line({3, -1, 2}, {-2, 2, -1});
+    plane1 = Plane(2, 3, 3, -8);
+    outputFile << "Zad 4. Kat miedzy prosta, a plaszczyzna: " << Intersections::LinePlaneAngle(line3, plane1)
              << " stopni\n";
-    }
 
-    // Zadanie 5
-    {
-        plane2 = Plane(2, -1, 1, -8);
-        plane3 = Plane(4, 3, 1, 14);
-        outputFile << "Zad 5. Przeciecie plaszczyzn: " << Utils::PlaneIntersect(plane2, plane3).ToString() << "\n";
-    }
+    // Zadanie 5 Znajdź prostą przecięcia płaszczyzn
+    plane2 = Plane(2, -1, 1, -8);
+    plane3 = Plane(4, 3, 1, 14);
+    outputFile << "Zad 5. Przeciecie plaszczyzn: " << Intersections::PlaneIntersect(plane2, plane3).ToString() << "\n";
 
-    // Zadanie 6
-    {
-        outputFile << "Zad 6. Kat miedzy plaszczyznami: " << Utils::PlaneAngle(plane2, plane3) << " stopnie\n";
-    }
+    // Zadanie 6 Znajdź kat pomiędzy płaszczyznami z zadania 5
+    outputFile << "Zad 6. Kat miedzy plaszczyznami: " << Intersections::PlaneAngle(plane2, plane3) << " stopnie\n";
 
-    // Zadanie 7
-    {
-        outputFile << "Zad 7. Punkt przeciecia dwoch odcinkow: " << Utils::SegmentIntersect(segment1, segment2)->ToString()
+    // Zadanie 7 Znajdź punkt przecięcia dwóch odcinków opisanych punktami
+    outputFile << "Zad 7. Punkt przeciecia dwoch odcinkow: " << Intersections::SegmentIntersect(segment1, segment2)->ToString()
                    << "\n";
-    }
 
     // Zadanie 8
-    {
-        std::vector<Vector> solutions = Utils::LineSphereIntersect(line4, sphere);
-        outputFile << "Zad 8. Punkty przeciecia prostej i sfery: " << solutions[0].ToString() << ", "
-                   << solutions[1].ToString() << "\n";
-    }
+    std::vector<Vector> solutions = Intersections::LineSphereIntersect(line4, sphere);
+    outputFile << "Zad 8. Punkty przeciecia prostej i sfery: " << solutions[0].ToString() << ", "
+    << solutions[1].ToString() << "\n";
 
     // Zamknij plik
     outputFile.close();

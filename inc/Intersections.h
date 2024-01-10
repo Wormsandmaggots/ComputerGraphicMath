@@ -9,7 +9,7 @@
 #include <optional>
 
 
-class Utils {
+class Intersections {
 public:
     // Oblicza punkt przecięcia dwóch prostych
     static Vector LineIntersect(const Line& line1, const Line& line2) {
@@ -49,19 +49,6 @@ public:
         return asin(std::abs(dot)) * 180 / M_PI; // Użycie asin zamiast acos
     }
 
-
-    /*static Line PlaneIntersect(const Plane& plane1, const Plane& plane2) {
-        Vector lineDir = plane1.n.CrossProduct(plane2.n);
-        float d1 = -plane1.n.DotProduct(plane1.p);
-        float d2 = -plane2.n.DotProduct(plane2.p);
-        float length = lineDir.Len();
-
-        if(length == 0) return Line(); // Płaszczyzny są równoległe lub pokrywające się
-
-        Vector linePoint = (lineDir.CrossProduct(plane2.n) * d1 + plane1.n.CrossProduct(lineDir) * d2) / length;
-        return Line(linePoint, lineDir);
-    }*/
-
     static Line PlaneIntersect(const Plane& plane1, const Plane& plane2) {
 
         Line result;
@@ -77,22 +64,8 @@ public:
         return result;
     }
 
-
-
-
-
-
-    // Oblicza kąt między dwoma płaszczyznami
-    /*static float PlaneAngle(const Plane& plane1, const Plane& plane2) {
-        Vector n1 = plane1.n.Normalize();
-        Vector n2 = plane2.n.Normalize();
-        float dot = n1.DotProduct(n2);
-        return acos(std::abs(dot)) * 180 / M_PI; // Konwersja z radianów na stopnie
-    }*/
-
     static float PlaneAngle(const Plane& plane1, const Plane& plane2)
     {
-        //return Vector::AngleBetween(plane1.n, plane2.n);
         return plane1.n.AngleBetween(plane2.n);
     }
 
