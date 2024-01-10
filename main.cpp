@@ -201,42 +201,55 @@ void Zadanie4()
 
     Sphere sphere = Sphere({0, 0, 0}, sqrt(26));
 
-    //ZADANIE 2
-    {
-        std::cout << "Zad 1. Punkt przeciecia prostych: " << Utils::LineIntersect(line1, line2).ToString() << "\n";
-    }
-    //ZADANIE 2
-    {
-        std::cout << "Zad 2. Kat miedzy prostymi: " << Utils::LineAngle(line1, line2) * (180 / PI) << " stopni\n";
+    // Otwórz plik do zapisu
+    std::ofstream outputFile("output.txt");
+
+    // Sprawdź, czy plik został otwarty poprawnie
+    if (!outputFile.is_open()) {
+        std::cerr << "Nie można otworzyć pliku do zapisu!" << std::endl;
     }
 
-    //ZADANIE 3
+    // Zadanie 1
     {
-        std::cout << "Zad 3. Punkt przeciecia prostej i plaszczyzny: "
-             << Utils::LinePlaneIntersect(line3, plane1).ToString() << "\n";
+        outputFile << "Zad 1. Punkt przeciecia prostych: " << Utils::LineIntersect(line1, line2).ToString() << "\n";
     }
-    //ZADANIE 5
+
+    // Zadanie 2
+    {
+        outputFile << "Zad 2. Kat miedzy prostymi: " << Utils::LineAngle(line1, line2) * (180 / PI) << " stopni\n";
+    }
+
+    // Zadanie 3
+    {
+        outputFile << "Zad 3. Punkt przeciecia prostej i plaszczyzny: "
+                   << Utils::LinePlaneIntersect(line3, plane1).ToString() << "\n";
+    }
+
+    // Zadanie 5
     {
         plane2 = Plane(2, -1, 1, -8);
         plane3 = Plane(4, 3, 1, 14);
-        std::cout << "Zad 5. Przeciecie plaszczyzn: " << Utils::PlaneIntersect(plane2, plane3).ToString() << "\n";
+        outputFile << "Zad 5. Przeciecie plaszczyzn: " << Utils::PlaneIntersect(plane2, plane3).ToString() << "\n";
     }
 
-    //ZADANIE 6
+    // Zadanie 6
     {
-        std::cout << "Zad 6. Kat miedzy plaszczyznami: " << Utils::PlaneAngle(plane2, plane3) * (180 / PI) << " stopnie\n";
+        outputFile << "Zad 6. Kat miedzy plaszczyznami: " << Utils::PlaneAngle(plane2, plane3) * (180 / PI) << " stopnie\n";
     }
 
-    //ZADANIE 7
+    // Zadanie 7
     {
-        std::cout << "Zad 7. Punkt przeciecia dwoch odcinkow: " << Utils::SegmentIntersect(segment1, segment2)->ToString()
-             << "\n";
+        outputFile << "Zad 7. Punkt przeciecia dwoch odcinkow: " << Utils::SegmentIntersect(segment1, segment2)->ToString()
+                   << "\n";
     }
 
-    //ZADANIE 8
+    // Zadanie 8
     {
         std::vector<Vector> solutions = Utils::LineSphereIntersect(line4, sphere);
-        std::cout << "Zad 8. Punkty przeciecia prostej i sfery: " << solutions[0].ToString() << ", "
-             << solutions[1].ToString() << "\n";
+        outputFile << "Zad 8. Punkty przeciecia prostej i sfery: " << solutions[0].ToString() << ", "
+                   << solutions[1].ToString() << "\n";
     }
+
+    // Zamknij plik
+    outputFile.close();
 }
