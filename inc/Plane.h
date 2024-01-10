@@ -1,3 +1,6 @@
+#ifndef PLANE_H
+#define PLANE_H
+
 #include "Vector.h"
 #include <string>
 #include <sstream>
@@ -34,3 +37,5 @@ public:
         return ss.str();
     }
 };
+
+#endif

@@ -7,8 +7,9 @@
 #include "Plane.h"
 #include "Segment.h"
 #include "Sphere.h"
+#include "Utils.h"
 #include <cmath>
-
+#define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006
 
 void Zadanie1();
 void Zadanie2();
@@ -199,4 +200,43 @@ void Zadanie4()
     Line line4 = Line({3, -1, -2}, {5, 3, -4});
 
     Sphere sphere = Sphere({0, 0, 0}, sqrt(26));
+
+    //ZADANIE 2
+    {
+        std::cout << "Zad 1. Punkt przeciecia prostych: " << Utils::LineIntersect(line1, line2).ToString() << "\n";
+    }
+    //ZADANIE 2
+    {
+        std::cout << "Zad 2. Kat miedzy prostymi: " << Utils::LineAngle(line1, line2) * (180 / PI) << " stopni\n";
+    }
+
+    //ZADANIE 3
+    {
+        std::cout << "Zad 3. Punkt przeciecia prostej i plaszczyzny: "
+             << Utils::LinePlaneIntersect(line3, plane1).ToString() << "\n";
+    }
+    //ZADANIE 5
+    {
+        plane2 = Plane(2, -1, 1, -8);
+        plane3 = Plane(4, 3, 1, 14);
+        std::cout << "Zad 5. Przeciecie plaszczyzn: " << Utils::PlaneIntersect(plane2, plane3).ToString() << "\n";
+    }
+
+    //ZADANIE 6
+    {
+        std::cout << "Zad 6. Kat miedzy plaszczyznami: " << Utils::PlaneAngle(plane2, plane3) * (180 / PI) << " stopnie\n";
+    }
+
+    //ZADANIE 7
+    {
+        std::cout << "Zad 7. Punkt przeciecia dwoch odcinkow: " << Utils::SegmentIntersect(segment1, segment2)->ToString()
+             << "\n";
+    }
+
+    //ZADANIE 8
+    {
+        std::vector<Vector> solutions = Utils::LineSphereIntersect(line4, sphere);
+        std::cout << "Zad 8. Punkty przeciecia prostej i sfery: " << solutions[0].ToString() << ", "
+             << solutions[1].ToString() << "\n";
+    }
 }

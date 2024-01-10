@@ -1,3 +1,5 @@
+#ifndef SEGMENT_H
+#define SEGMENT_H
 #include "Vector.h"
 #include <string>
 #include <sstream>
@@ -24,3 +26,4 @@ public:
         return ss.str();
     }
 };
+#endif

@@ -1,3 +1,5 @@
+#ifndef SPHERE_H
+#define SPHERE_H
 #include "Vector.h"
 #include <string>
 #include <sstream>
@@ -23,3 +25,4 @@ public:
         return ss.str();
     }
 };
+#endif
