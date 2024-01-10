@@ -35,34 +35,66 @@ public:
 
     // Znajduje punkt przecięcia prostej z płaszczyzną
     static Vector LinePlaneIntersect(const Line& line, const Plane& plane) {
-        float d = plane.n.DotProduct(plane.p);
-        float t = -(plane.n.DotProduct(line.p) + d) / plane.n.DotProduct(line.v);
-        return line.p + line.v * t;
-    }
-    // Oblicza kąt między prostą a płaszczyzną
-    static float LinePlaneAngle(const Line& line, const Plane& plane) {
-        Vector lineDir = line.v.Normalize();
-        Vector planeNormal = plane.n.Normalize();
-        float dot = lineDir.DotProduct(planeNormal);
-        return acos(std::abs(dot)) * 180 / M_PI; // Konwersja z radianów na stopnie
+        float d = -plane.n.DotProduct(plane.p); // Użycie minusa dla d
+        float t = -(plane.n.DotProduct(line.p) + d) / plane.n.DotProduct(line.v); // Używając wektora kierunkowego linii w mianowniku
+        return line.p + line.v * t; // Obliczenie punktu przecięcia
     }
 
-    // Znajduje linię przecięcia dwóch płaszczyzn
-    static Line PlaneIntersect(const Plane& plane1, const Plane& plane2) {
+
+    // Oblicza kąt między prostą a płaszczyzną
+    static float LinePlaneAngle(const Line& line, const Plane& plane) {
+        Vector lineDir = line.p.Normalize();
+        Vector planeNormal = plane.n.Normalize();
+        float dot = lineDir.DotProduct(planeNormal);
+        return asin(std::abs(dot)) * 180 / M_PI; // Użycie asin zamiast acos
+    }
+
+
+    /*static Line PlaneIntersect(const Plane& plane1, const Plane& plane2) {
         Vector lineDir = plane1.n.CrossProduct(plane2.n);
         float d1 = -plane1.n.DotProduct(plane1.p);
         float d2 = -plane2.n.DotProduct(plane2.p);
-        Vector linePoint = (lineDir.CrossProduct(plane2.n) * d1 + plane1.n.CrossProduct(lineDir) * d2) / pow(lineDir.Len(), 2);
+        float length = lineDir.Len();
+
+        if(length == 0) return Line(); // Płaszczyzny są równoległe lub pokrywające się
+
+        Vector linePoint = (lineDir.CrossProduct(plane2.n) * d1 + plane1.n.CrossProduct(lineDir) * d2) / length;
         return Line(linePoint, lineDir);
+    }*/
+
+    static Line PlaneIntersect(const Plane& plane1, const Plane& plane2) {
+
+        Line result;
+        result.v = plane1.n.CrossProduct(plane2.n); // Wektor kierunkowy linii przecięcia
+        float length = result.v.Len();
+
+        // Sprawdzenie, czy płaszczyzny nie są równoległe
+        //if(length == 0) return Line(); // Zwróć pustą linię, jeśli płaszczyzny są równoległe lub pokrywające się
+
+        // Obliczanie punktu na linii przecięcia
+        result.p = (result.v.CrossProduct(plane2.n) * plane1.d +
+                    plane1.n.CrossProduct(result.v) * plane2.d) / length;
+
+        return result;
     }
 
+
+
+
     // Oblicza kąt między dwoma płaszczyznami
-    static float PlaneAngle(const Plane& plane1, const Plane& plane2) {
+    /*static float PlaneAngle(const Plane& plane1, const Plane& plane2) {
         Vector n1 = plane1.n.Normalize();
         Vector n2 = plane2.n.Normalize();
         float dot = n1.DotProduct(n2);
         return acos(std::abs(dot)) * 180 / M_PI; // Konwersja z radianów na stopnie
+    }*/
+
+    static float PlaneAngle(const Plane& plane1, const Plane& plane2)
+    {
+        //return Vector::AngleBetween(plane1.n, plane2.n);
+        return plane1.n.AngleBetween(plane2.n);
     }
+
     // Znalezienie punktu przecięcia dwóch odcinków
     static std::optional<Vector> SegmentIntersect(const Segment& seg1, const Segment& seg2) {
         Vector dir1 = seg1.e - seg1.s;

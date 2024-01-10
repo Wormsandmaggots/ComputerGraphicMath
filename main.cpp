@@ -225,6 +225,14 @@ void Zadanie4()
                    << Utils::LinePlaneIntersect(line3, plane1).ToString() << "\n";
     }
 
+    //ZADANIE 4
+    {
+        line3 = Line({3, -1, 2}, {-2, 2, -1});
+        plane1 = Plane(2, 3, 3, -8);
+        outputFile << "Zad 4. Kat miedzy prosta, a plaszczyzna: " << Utils::LinePlaneAngle(line3, plane1)
+             << " stopni\n";
+    }
+
     // Zadanie 5
     {
         plane2 = Plane(2, -1, 1, -8);
@@ -234,7 +242,7 @@ void Zadanie4()
 
     // Zadanie 6
     {
-        outputFile << "Zad 6. Kat miedzy plaszczyznami: " << Utils::PlaneAngle(plane2, plane3) * (180 / PI) << " stopnie\n";
+        outputFile << "Zad 6. Kat miedzy plaszczyznami: " << Utils::PlaneAngle(plane2, plane3) << " stopnie\n";
     }
 
     // Zadanie 7

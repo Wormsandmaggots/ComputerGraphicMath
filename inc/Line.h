@@ -27,7 +27,7 @@ public:
     // Metoda konwertująca reprezentację prostej na łańcuch znaków
     std::string ToString() const {
         std::stringstream ss;
-        ss << "Line: P = " << p.ToString() << ", V = " << v.ToString();
+        ss << "P = " << p.ToString() << " + " << v.ToString() << " * t";
         return ss.str();
     }
 };
