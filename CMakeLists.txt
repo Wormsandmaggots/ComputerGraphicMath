@@ -4,4 +4,9 @@ project(aMatematykaGrafiki)
 set(CMAKE_CXX_STANDARD 23)
 include_directories(inc)
 
-add_executable(aMatematykaGrafiki main.cpp inc/Vector.h src/Vector.cpp inc/Matrix.h src/Matrix.cpp inc/Quaternion.h src/Quaternion.cpp)
+add_executable(aMatematykaGrafiki main.cpp inc/Vector.h src/Vector.cpp inc/Matrix.h src/Matrix.cpp inc/Quaternion.h src/Quaternion.cpp
+        inc/Line.h
+        inc/Plane.h
+        inc/Sphere.h
+        inc/Segment.h
+)

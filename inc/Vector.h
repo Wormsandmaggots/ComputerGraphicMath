@@ -9,6 +9,8 @@
 
 class Vector {
 public:
+    Vector();
+
     Vector(float, float, float = 0.);
     Vector(const Vector&);
     virtual ~Vector() = default;

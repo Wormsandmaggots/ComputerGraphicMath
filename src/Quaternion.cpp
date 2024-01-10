@@ -61,21 +61,6 @@ bool Quaternion::operator==(const Quaternion & another) const {
     return _vec == another._vec && _real == another._real;
 }
 
-//to powinno być mnożenie dwóch quaternionów chyba
-//void Quaternion::Rotate(float angle) {
-//    float qDiv = ((_vec.x() + _vec.y() + _vec.z()) /
-//            sqrt(_vec.x() * _vec.x() + _vec.y() * _vec.y() + _vec.z() * _vec.z())) *
-//            sin(angle/2.);
-//
-//    float q = (float)cos(angle / 2.) + qDiv;
-//    float qMinusOne = (float)cos(angle / 2.) - qDiv;
-//
-//    _vec *= q;
-//    _vec *= qMinusOne;
-//}
-
-//wydaje się działać
-//sprawdzone na chłopski rozum rysując układ współrzędnych
 void Quaternion::Rotate(float angle, const Vector & axis)
 {
     Quaternion q = Quaternion(Vector(axis.Normalize() * sin(M_PI * angle / 180 / 2)), cos(M_PI * angle / 180 / 2));

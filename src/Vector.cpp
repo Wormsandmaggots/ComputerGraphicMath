@@ -49,6 +49,7 @@ Vector Vector::operator-(const Vector & val) const {
     return {_x - val._x, _y - val._y, _z - val._z};
 }
 
+
 Vector& Vector::operator=(const Vector & val) {
 
     if(&val != this)
@@ -113,6 +114,10 @@ std::string Vector::ToString() const {
 float Vector::AngleBetween(const Vector & another) const {
     float cosValue = DotProduct(another) / (Len() * another.Len());
     return (acos(cosValue) * 180) / M_PI;
+}
+
+Vector::Vector() {
+
 }
 
 

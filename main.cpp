@@ -3,13 +3,20 @@
 #include "Matrix.h"
 #include "Quaternion.h"
 #include <fstream>
+#include "Line.h"
+#include "Plane.h"
+#include "Segment.h"
+#include "Sphere.h"
+#include <cmath>
+
 
 void Zadanie1();
 void Zadanie2();
 void Zadanie3();
+void Zadanie4();
 
 int main() {
-    Zadanie3();
+    Zadanie4();
 
     return 0;
 }
@@ -174,4 +181,22 @@ void Zadanie3()
         outfile << "Nie";
 
     outfile.close(); // Zamknięcie pliku
+}
+
+void Zadanie4()
+{
+    Line line1 = Line(Vector(3, 1, 5), Vector(-2, 4, 0));
+    Line line2 = Line(Vector(1, -5, 3), Vector(-2, 4, 0));
+    Line line3 = Line(Vector(3, -1, 2), Vector(-2, 2, -1));
+
+    Plane plane1 = Plane(2, 3, 3, -8);
+    Plane plane2 = Plane(2, -1, 1, -8);
+    Plane plane3 = Plane(4, 3, 1, 14);
+
+    Segment segment1 = Segment({5, 5, 4}, {10, 10, 6});
+    Segment segment2 = Segment({5, 5, 5}, {10, 10, 3});
+
+    Line line4 = Line({3, -1, -2}, {5, 3, -4});
+
+    Sphere sphere = Sphere({0, 0, 0}, sqrt(26));
 }
