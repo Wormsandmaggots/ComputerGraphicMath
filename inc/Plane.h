@@ -18,7 +18,7 @@ public:
     Plane(const Plane& plane) : n(plane.n), p(plane.p), d(plane.d) {}
 
     // Konstruktor z parametrami równania ogólnego
-    Plane(float a, float b, float c, float d) : n(Vector(a, b, c)), d(d) {
+   /* Plane(float a, float b, float c, float d) : n(Vector(a, b, c)), d(d) {
         // Obliczenie punktu na płaszczyźnie
         // Uwzględniamy specjalne przypadki, aby uniknąć dzielenia przez zero
         if (c != 0) {
@@ -28,14 +28,39 @@ public:
         } else if (a != 0) {
             p = Vector(-d / a, 0, 0);
         }
-    }
+    }*/
+
+   /*Plane(float a, float b, float c, float d) : n(Vector(a, b, c).Normalize()), d(d) {
+       // Obliczenie punktu na płaszczyźnie
+       // Uwzględniamy specjalne przypadki, aby uniknąć dzielenia przez zero
+       if (c != 0) {
+           p = Vector(0, 0, -d / c);
+       } else if (b != 0) {
+           p = Vector(0, -d / b, 0);
+       } else if (a != 0) {
+           p = Vector(-d / a, 0, 0);
+       }
+   }*/
+
+   Plane(float a, float b, float c, float d)
+   {
+       this->n = {a, b, c};
+       //this->n.Normalize();
+
+       if (c != 0) {
+           this->p = {0, 0, -d / c};
+       } else if (b != 0) {
+           this->p = {0, -d / b, 0};
+       }
+   }
+
 
     // Metoda ToString dla reprezentacji tekstowej płaszczyzny
-    std::string ToString() const {
+    /*std::string ToString() const {
         std::stringstream ss;
         ss << "Plane: n = " << n.ToString() << ", p = " << p.ToString() << ", d = " << d;
         return ss.str();
-    }
+    }*/
 };
 
 #endif

@@ -30,6 +30,8 @@ public:
         ss << "P = " << p.ToString() << " + " << v.ToString() << " * t";
         return ss.str();
     }
+
+
 };
 
 #endif

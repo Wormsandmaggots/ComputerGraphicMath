@@ -74,9 +74,10 @@ public:
         // Obliczanie punktu na linii przecięcia
         result.p = (result.v.CrossProduct(plane2.n) * plane1.d +
                     plane1.n.CrossProduct(result.v) * plane2.d) / length;
-
         return result;
     }
+
+
 
 
 
