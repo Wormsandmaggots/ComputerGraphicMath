@@ -19,12 +19,19 @@ public:
     }
 
     // Oblicza kąt między dwoma prostymi
-    static float LineAngle(const Line& line1, const Line& line2) {
+    /*static float LineAngle(const Line& line1, const Line& line2) {
         Vector dir1 = line1.v.Normalize();
         Vector dir2 = line2.v.Normalize();
         float dot = dir1.DotProduct(dir2);
         return acos(dot) * 180 / M_PI;  // Konwersja z radianów na stopnie
+    }*/
+    // Oblicza kąt między dwoma prostymi
+    static float LineAngle(const Line& line1, const Line& line2) {
+        Vector dir1 = line1.p.Normalize();
+        Vector dir2 = line2.p.Normalize();
+        return dir1.AngleBetween(dir2); // Wywołanie metody AngleBetween na wektorach kierunkowych
     }
+
 
     // Znajduje punkt przecięcia prostej z płaszczyzną
     static Vector LinePlaneIntersect(const Line& line, const Plane& plane) {

@@ -111,7 +111,7 @@ std::string Vector::ToString() const {
 //iloczyn skalarny = długość(v1) * długość(v2) * cos(a)
 //cos(a) = iloczyn skalarny / (długość(v1) * długość(v2))
 //jesli iloczyn skalarny = 0 wektory prostopadłe
-float Vector::AngleBetween(const Vector & another) const {
+float Vector::AngleBetween(const Vector& another) const {
     float cosValue = DotProduct(another) / (Len() * another.Len());
     return (acos(cosValue) * 180) / M_PI;
 }

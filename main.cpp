@@ -216,7 +216,7 @@ void Zadanie4()
 
     // Zadanie 2
     {
-        outputFile << "Zad 2. Kat miedzy prostymi: " << Utils::LineAngle(line1, line2) * (180 / PI) << " stopni\n";
+        outputFile << "Zad 2. Kat miedzy prostymi: " << Utils::LineAngle(line1, line2) << " stopni\n";
     }
 
     // Zadanie 3
