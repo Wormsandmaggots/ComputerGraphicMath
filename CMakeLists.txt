@@ -10,7 +10,6 @@ add_executable(aMatematykaGrafiki main.cpp inc/Vector.h src/Vector.cpp inc/Matri
         inc/Sphere.h
         inc/Segment.h
         inc/Intersections.h
-        inc/Vector4.h
         inc/Cube.h
         inc/RTX.h
 )

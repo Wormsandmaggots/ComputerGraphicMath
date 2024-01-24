@@ -135,5 +135,23 @@ public:
         return tFar > tNear;
     }
 
+    static bool IsPointOnAABBEdge(const Vector& point, const Vector& center, float a, float b, float c) {
+        float tolerance = 0.95f;  // Ustaw dowolną tolerancję, aby uwzględnić pewien margines błędu
+
+        bool onEdgeX = (std::abs(point.x() - center.x()) >= a - tolerance) &&
+                       (std::abs(point.y() - center.y()) <= b + tolerance) &&
+                       (std::abs(point.z() - center.z()) <= c + tolerance);
+
+        bool onEdgeY = (std::abs(point.x() - center.x()) <= a + tolerance) &&
+                       (std::abs(point.y() - center.y()) >= b - tolerance) &&
+                       (std::abs(point.z() - center.z()) <= c + tolerance);
+
+        bool onEdgeZ = (std::abs(point.x() - center.x()) <= a + tolerance) &&
+                       (std::abs(point.y() - center.y()) <= b + tolerance) &&
+                       (std::abs(point.z() - center.z()) >= c - tolerance);
+
+        return onEdgeX || onEdgeY || onEdgeZ;
+    }
+
 };
 #endif

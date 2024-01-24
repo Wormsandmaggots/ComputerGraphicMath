@@ -21,12 +21,12 @@ void redraw(float pitch, float yaw, float radius)
     camPos.z(radius * std::sin(yawRadians));
 
 
-    const Vector camDir = (-camPos).Normal();
+    const Vector camDir = (-camPos).Normalize();
 
     std::system("cls");
     raytracer.RayCast(camPos, camDir);
     raytracer.Draw();
-    std::cout << "dupa debugging: [" << pitch << "; " << yaw << "; " << radius << "]\ncampos: " << camPos.ToString() << "\ncamdir: " << camDir.ToString() << std::endl;
+    std::cout << "debugging: [" << pitch << "; " << yaw << "; " << radius << "]\ncampos: " << camPos.ToString() << "\ncamdir: " << camDir.ToString() << std::endl;
 }
 
 int main()
@@ -40,7 +40,9 @@ int main()
     HANDLE hstdin;
     DWORD mode;
 
-    while(true)
+    bool run = true;
+
+    while(run)
     {
         bool dirty = false;
         hstdin = GetStdHandle(STD_INPUT_HANDLE);
@@ -77,6 +79,10 @@ int main()
             radius += 1.0f;
             dirty = true;
         }
+        if(opt == 0x20)
+        {
+            run = false;
+        }
 
         if (dirty)
         {
@@ -91,4 +97,6 @@ int main()
             redraw(pitch, yaw, radius);
         }
     }
+
+    return 0;
 }

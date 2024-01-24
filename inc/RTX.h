@@ -19,7 +19,7 @@ public:
     RTX() {
         for (int i = 0; i < 60; i++) {
             for (int k = 0; k < 60; k++) {
-                screen[i][k] = false;
+                screen[i][k] = '.';
             }
         }
     }
@@ -29,10 +29,7 @@ public:
         {
             for (int k = 0; k < 60; k++)
             {
-                if (screen[i][k])
-                    std::cout << "0";
-                else
-                    std::cout << ".";
+                std::cout << screen[i][k];
             }
             std::cout << "\n";
         }
@@ -59,33 +56,28 @@ public:
 
         Vector screenDown = screenPosition.CrossProduct(screenLeft).Normalize();
 
-//        Vector screenLeft = ((screenPosition - cameraPosition) * -1).CrossProduct(worldUp);
-//        //screenLeft.Normalize();
-//        screenLeft.norm();
-//        Vector screenDown = screenPosition.CrossProduct(screenLeft);
-//        //screenDown.Normalize();
-//        screenDown.norm();
-
         for (int i = 0; i < 60; i++)
         {
             for (int k = 0; k < 60; k++)
             {
-                // Oblicz pozycję pixela na ekranie
-//                Vector pixelLocation = screenPosition
-//                                       + screenLeft * ((k - 30) * pixelSize)
-//                                       + screenDown * ((i - 30) * pixelSize);
-
                 Vector pixelLocation = screenPosition + (screenLeft * ((k - 30) * pixelSize));
                 pixelLocation = pixelLocation + (screenDown * ((i - 30) * pixelSize));
 
                 Line line = Line::StartToEnd(cameraPosition, pixelLocation);
-                screen[i][k] = Intersections::IsRayIntersectAABBUnitBox(line);
+                if(Intersections::IsRayIntersectAABBUnitBox(line))
+                {
+                    screen[i][k] = '0';  // Symbol for inside the box
+                }
+                else
+                {
+                    screen[i][k] = '.';
+                }
             }
         }
 
     }
 
 private:
-    bool screen[60][60] = {{false}};
+    char screen[60][60] = {{'.'}};
 };
 #endif //AMATEMATYKAGRAFIKI_RTX_H
