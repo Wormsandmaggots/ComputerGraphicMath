@@ -37,6 +37,14 @@ Vector Vector::operator/(const float & val) const {
     return {_x / val, _y / val, _z / val};
 }
 
+
+Vector Vector::operator/(const Vector& v) const
+{
+    return { _x  / v._x, _y  / v._y, _z  / v._z };
+}
+
+
+
 Vector Vector::operator*(const float & val) const {
     return {_x * val, _y * val, _z * val};
 }
@@ -49,6 +57,9 @@ Vector Vector::operator-(const Vector & val) const {
     return {_x - val._x, _y - val._y, _z - val._z};
 }
 
+Vector Vector::operator-() const {
+    return {-_x, -_y, -_z};
+}
 
 Vector& Vector::operator=(const Vector & val) {
 
@@ -99,6 +110,7 @@ bool Vector::operator==(const Vector & another) const {
            _y == another._y &&
            _z == another._z;
 }
+
 
 std::string Vector::ToString() const {
     std::stringstream ss;

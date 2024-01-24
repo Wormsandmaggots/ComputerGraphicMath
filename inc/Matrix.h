@@ -7,11 +7,11 @@
 
 #include "Vector.h"
 
-#define SIZE 16
+#define MATRIX_SIZE 16
 
 class Matrix {
 public:
-    explicit Matrix(const float values[SIZE]);
+    explicit Matrix(const float values[MATRIX_SIZE]);
     Matrix(const Matrix&);
     virtual ~Matrix() = default;
 
@@ -41,7 +41,7 @@ public:
     float* RotateVec(Vector&, float w = 1) const;
 
 private:
-    float _data[SIZE] = {0};
+    float _data[MATRIX_SIZE] = {0};
 };
 
 

@@ -1,248 +1,97 @@
 #include <iostream>
-#include "Vector.h"
-#include "Matrix.h"
-#include "Quaternion.h"
-#include <fstream>
-#include "Line.h"
-#include "Plane.h"
-#include "Segment.h"
-#include "Sphere.h"
-#include "Intersections.h"
 #include <cmath>
+#include <windows.h>
+
+#include "Quaternion.h"
+#include "RTX.h"
+#include "Vector.h"
+
 #define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006
 
-void Zadanie1();
-void Zadanie2();
-void Zadanie3();
-void Zadanie4();
-
-int main() {
-    Zadanie4();
-
-    return 0;
-}
-
-void Zadanie1()
+void redraw(float pitch, float yaw, float radius)
 {
-    Vector v(1, 2, 3);
-    Vector v2(3, 2, 1);
+    RTX raytracer;
 
-    std::ofstream outFile("output.txt");
+    Vector camPos(0, 0, 0);
 
-    auto log = [&outFile](const std::string& message) {
-        std::cout << message;
-        outFile << message;
-    };
+    const float pitchRadians = pitch * PI / 180.0f;
+    const float yawRadians = yaw * PI / 180.0f;
 
-    log(v.ToString() + "\n" + v2.ToString() + "\nCzy przemiennosc dodawania dziala?\n");
-    log(std::string((v + v2) == (v2 + v) ? "Tak" : "Nie") + "\n");
-    log("--------------------------------\n");
+    camPos.x(radius * std::cos(pitchRadians) * std::cos(yawRadians));
+    camPos.y(radius * std::sin(pitchRadians) * std::cos(yawRadians));
+    camPos.z(radius * std::sin(yawRadians));
 
-    v = {0, 3, 0};
-    v2 = {5, 5, 0};
 
-    log("Kat miedzy " + v.ToString() + " oraz " + v2.ToString() + " jest rowny ");
-    log(std::to_string(v.AngleBetween(v2)) + " stopni\n");
+    const Vector camDir = (-camPos).Normal();
 
-    log("--------------------------------\n");
-
-    v = {4, 5, 1};
-    v2 = {4, 1, 3};
-
-    Vector v_1 = v.CrossProduct(v2);
-
-    log("Czy " + v_1.ToString() + " jest prostopadly do " + v.ToString() + " oraz " + v2.ToString() + "\n");
-    log(std::string(v.DotProduct(v_1) == 0 ? "Tak" : "Nie") + "\n");
-
-    log("--------------------------------\n");
-    log("Znormalizowany wektor ma postac: " + v_1.Normalize().ToString() + "\n");
-
-    outFile.close();
+    std::system("cls");
+    raytracer.RayCast(camPos, camDir);
+    raytracer.Draw();
+    std::cout << "dupa debugging: [" << pitch << "; " << yaw << "; " << radius << "]\ncampos: " << camPos.ToString() << "\ncamdir: " << camDir.ToString() << std::endl;
 }
 
-void Zadanie2() {
-    float tab[16] = {1, 2, 0, -3,
-                     3, -4, 1, 0,
-                     1, 2, 3, 0,
-                     1, 4, 2, 3};
+int main()
+{
+    // Don't @ me.
+    float pitch = 0.0f;
+    float yaw = 0.0f;
+    float radius = 10.0f;
 
-    float tab2[16] = {0, 1, 2, 3,
-                      4, 5, 6, 7,
-                      8, 9, 10, 11,
-                      12, 13, 14, 15};
+    redraw(pitch, yaw, radius);
 
-    float tab3[16] = {1, 1, 1, 1,
-                      1, 1, 1, 1,
-                      1, 1, 1, 1,
-                      1, 1, 1, 1};
+    // WINAPIIIIIIIIIIiiiiiiiiiii-
+    HANDLE hstdin;
+    DWORD mode;
 
-    float tab4[16] = {1, 2, 3, 4,
-                      2, 3, 1, 2,
-                      1, 1, 1, -1,
-                      1, 0, -2, -6};
-
-    Matrix m1(tab);
-    Matrix m12(tab);
-    Matrix m13(tab);
-    Matrix m2(tab2);
-    Matrix m3(tab3);
-    Matrix m4(tab4);
-
-    std::ofstream out("output.txt");  // Utwórz i otwórz strumień plikowy
-
-    // Zapisz do pliku zamiast wyświetlać na terminalu
-    out << "Dodanie dwoch macierzy:\n" << (m1 + m3).ToString() << std::endl;
-    out << "Odjecie dwoch macierzy:\n" << (m1 - m3).ToString() << std::endl;
-    out << "Pomnozenie dwoch macierzy:\n" << (m1 * m3).ToString() << std::endl;
-    out << "Pomnozenie macierzy przez skalar: \n" << (m3 * 3).ToString() << std::endl;
-    out << "Macierz jednostkowa: \n" << Matrix::Indentity().ToString() << std::endl;
-
-    m4.Inverse();
-    out << "Odwrocona macierz: \n" << m4.ToString() << std::endl;
-
-    m1.Translate(Vector(0, 3, 3));
-    out << "Macierz po translacji: \n" << m1.ToString() << std::endl;
-
-    m1.SetScale(2);
-    out << "Macierz po ustawieniu skali: \n" << m1.ToString() << std::endl;
-
-    m1.SetScale(Vector(1, 2, 3));
-    out << "Macierz po ustawieniu skali: \n" << m1.ToString() << std::endl;
-
-    m1.RotX(45);
-    out << "Macierz po zrotowaniu w x: \n" << m1.ToString() << std::endl;
-
-    m12.RotY(45);
-    out << "Macierz po zrotowaniu w y: \n" << m12.ToString() << std::endl;
-
-    m13.RotZ(45);
-    out << "Macierz po zrotowaniu w z: \n" << m13.ToString() << std::endl;
-
-    m1.Rotate(45, Vector(1, 2, 3));
-    out << "Macierz po zrotowaniu wzdluz osi: \n" << m1.ToString() << std::endl;
-
-    float newTab[16] = {1, 0, 0, 0,
-                        0, 1, 0, 0,
-                        0, 0, 1, 0,
-                        0, 0, 0, 1};
-
-    Matrix rot(newTab);
-    rot.RotY(90);
-    out << "Zrotowana macierz: \n" << rot.ToString() << std::endl;
-
-//    Quaternion q(1,0,0,1);
-//    q.Rotate(90, Vector(0,1,0));
-//
-//    out << q.ToString() << "\n\n";
-
-    Vector v(1,0,0);
-
-    float* x = rot.RotateVec(v);
-
-    out << "wektor zrotowany o 90 stopni w y: ";
-
-    for (int i = 0; i < 4; i++)
+    while(true)
     {
-        out << x[i] << " ";
+        bool dirty = false;
+        hstdin = GetStdHandle(STD_INPUT_HANDLE);
+        GetConsoleMode(hstdin, &mode);
+        SetConsoleMode(hstdin, ENABLE_ECHO_INPUT | ENABLE_PROCESSED_INPUT);
+        const int opt = std::cin.get();
+        if (opt == 0x61) //a
+        {
+            pitch -= 5.0f;
+            dirty = true;
+        }
+        if (opt == 0x64) //d
+        {
+            pitch += 5.0f;
+            dirty = true;
+        }
+        if (opt == 0x77) //w
+        {
+            yaw += 5.0f;
+            dirty = true;
+        }
+        if (opt == 0x73) //s
+        {
+            yaw -= 5.0f;
+            dirty = true;
+        }
+        if (opt == 0x71) //q
+        {
+            radius -= 1.0f;
+            dirty = true;
+        }
+        if (opt == 0x65) //e
+        {
+            radius += 1.0f;
+            dirty = true;
+        }
+
+        if (dirty)
+        {
+            if (yaw >= 90.0f) yaw = 90.0f;
+            else if (yaw < -90.0f) yaw = -90.f;
+
+            if (pitch >= 360.0f) pitch -= 360.0f;
+            else if (pitch < 0.0f) pitch += 360.0f;
+
+            if (radius < 3.0f) radius = 2.0f; // when radius == 1.0f we get an exception -_-
+
+            redraw(pitch, yaw, radius);
+        }
     }
-
-    out << "\n\n";
-
-    out << "Czy dziala przemiennosc mnozenia macierzy? \n";
-    if ((m1 * m2) == (m2 * m1))
-        out << "Tak" << std::endl;
-    else
-        out << "Nie" << std::endl;
-
-    out.close();  // Zamknij strumień plikowy
-}
-
-void Zadanie3()
-{
-    std::ofstream outfile("output.txt"); // Otwarcie pliku output.txt do zapisu
-
-    Quaternion q1(Vector(1, 2, 3), 2);
-    Quaternion q2(Vector(4, 6, 8), 3);
-    Quaternion q3(Vector(-1, -1, -1), 0);
-
-    outfile << "Dodawanie quaternionow: " << (q1 + q2).ToString() << std::endl;
-    outfile << "Odejmowanie quaternionow: " << (q1 - q2).ToString() << std::endl;
-    outfile << "Mnozenie quaternionow: " << (q1 * q2).ToString() << std::endl;
-    outfile << "Dzielenie quaternionow: " << (q1 / q2).ToString() << std::endl;
-
-    q3.Rotate(270, {1,0,0});
-
-    outfile << "Obrot wektora wzdluz osi x: " << q3.ToString() << std::endl;
-
-    outfile << "Czy przemiennosc mnozenia quaternionow dziala? " << std::endl;
-
-    if((q1 * q2) == (q2 * q1))
-        outfile << "Tak";
-    else
-        outfile << "Nie";
-
-    outfile.close(); // Zamknięcie pliku
-}
-
-void Zadanie4()
-{
-    Line line1 = Line(Vector(3, 1, 5), Vector(-2, 4, 0));
-    Line line2 = Line(Vector(1, -5, 3), Vector(-2, 4, 0));
-    Line line3 = Line(Vector(3, -1, 2), Vector(-2, 2, -1));
-
-    Plane plane1 = Plane(2, 3, 3, -8);
-    Plane plane2 = Plane(2, -1, 1, -8);
-    Plane plane3 = Plane(4, 3, 1, 14);
-
-    Segment segment1 = Segment({5, 5, 4}, {10, 10, 6});
-    Segment segment2 = Segment({5, 5, 5}, {10, 10, 3});
-
-    Line line4 = Line({3, -1, -2}, {5, 3, -4});
-
-    Sphere sphere = Sphere({0, 0, 0}, sqrt(26));
-
-    // Otwórz plik do zapisu
-    std::ofstream outputFile("output.txt");
-
-    // Sprawdź, czy plik został otwarty poprawnie
-    if (!outputFile.is_open()) {
-        std::cerr << "Nie można otworzyć pliku do zapisu!" << std::endl;
-    }
-
-    // Zadanie 1 Znajdź punkt przecięcia prostych
-    outputFile << "Zad 1. Punkt przeciecia prostych: " << Intersections::LineIntersect(line1, line2).ToString() << "\n";
-
-
-    // Zadanie 2 Znajdź kąt między prostymi z zadania 1
-    outputFile << "Zad 2. Kat miedzy prostymi: " << Intersections::LineAngle(line1, line2) << " stopni\n";
-
-    // Zadanie 3 Znajdź punkt przecięcia pomiędzy prostą a płaszczyną
-    outputFile << "Zad 3. Punkt przeciecia prostej i plaszczyzny: "
-               << Intersections::LinePlaneIntersect(line3, plane1).ToString() << "\n";
-
-    // ZADANIE 4 Znajdź kąt pomiędzy prostą a płaszczyzną z zadania 2
-    line3 = Line({3, -1, 2}, {-2, 2, -1});
-    plane1 = Plane(2, 3, 3, -8);
-    outputFile << "Zad 4. Kat miedzy prosta, a plaszczyzna: " << Intersections::LinePlaneAngle(line3, plane1)
-             << " stopni\n";
-
-    // Zadanie 5 Znajdź prostą przecięcia płaszczyzn
-    plane2 = Plane(2, -1, 1, -8);
-    plane3 = Plane(4, 3, 1, 14);
-    outputFile << "Zad 5. Przeciecie plaszczyzn: " << Intersections::PlaneIntersect(plane2, plane3).ToString() << "\n";
-
-    // Zadanie 6 Znajdź kat pomiędzy płaszczyznami z zadania 5
-    outputFile << "Zad 6. Kat miedzy plaszczyznami: " << Intersections::PlaneAngle(plane2, plane3) << " stopnie\n";
-
-    // Zadanie 7 Znajdź punkt przecięcia dwóch odcinków opisanych punktami
-    outputFile << "Zad 7. Punkt przeciecia dwoch odcinkow: " << Intersections::SegmentIntersect(segment1, segment2)->ToString()
-                   << "\n";
-
-    // Zadanie 8
-    std::vector<Vector> solutions = Intersections::LineSphereIntersect(line4, sphere);
-    outputFile << "Zad 8. Punkty przeciecia prostej i sfery: " << solutions[0].ToString() << ", "
-    << solutions[1].ToString() << "\n";
-
-    // Zamknij plik
-    outputFile.close();
 }

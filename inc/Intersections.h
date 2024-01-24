@@ -7,6 +7,7 @@
 #include <cmath>
 #include <vector>
 #include <optional>
+#include <algorithm>
 
 
 class Intersections {
@@ -111,5 +112,28 @@ public:
 
         return points;
     }
+
+    static bool IsRayIntersectAABBUnitBox(Line line)
+    {
+        Vector boxMin(-1, -1, -1);
+        Vector boxMax(1, 1, 1);
+
+        // Perform element-wise division using DivideElementWise
+        Vector tMin = (boxMin - line.p) / line.v;
+        Vector tMax = (boxMax - line.p) / line.v;
+
+        // Continue using the Vector::Min and Vector::Max static methods
+        Vector t1 = Vector::Min(tMin, tMax);
+        Vector t2 = Vector::Max(tMin, tMax);
+
+        // Extract the minimum and maximum values of t
+        //double tNear = std::max({t1.x(), t1.y(), t1.z()});
+        //double tFar = std::min({t2.x(), t2.y(), t2.z()});
+        double tNear = std::max(std::max(t1.x(),t1.y()), t1.z());
+        double tFar = std::min(std::min(t2.x(),t2.y()), t2.z());
+        // Check if the ray intersects the AABB unit box
+        return tFar > tNear;
+    }
+
 };
 #endif

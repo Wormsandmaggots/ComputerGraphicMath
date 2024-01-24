@@ -10,18 +10,18 @@
 float Calculate3x3Det(float arr[9]);
 float* GetMatrix3x3From4x4(const Matrix & another, int i, int j);
 
-Matrix::Matrix(const float values[SIZE]) {
-    memcpy(_data, values, SIZE * sizeof(float));
+Matrix::Matrix(const float values[MATRIX_SIZE]) {
+    memcpy(_data, values, MATRIX_SIZE * sizeof(float));
 }
 
 Matrix::Matrix(const Matrix & cpy) {
-    memcpy(_data, cpy._data, SIZE * sizeof(float));
+    memcpy(_data, cpy._data, MATRIX_SIZE * sizeof(float));
 }
 
 Matrix Matrix::operator+(const Matrix & another) const {
-    float newTab[SIZE];
+    float newTab[MATRIX_SIZE];
 
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < MATRIX_SIZE; i++)
     {
         newTab[i] = _data[i] + another[i];
     }
@@ -30,9 +30,9 @@ Matrix Matrix::operator+(const Matrix & another) const {
 }
 
 Matrix Matrix::operator-(const Matrix & another) const {
-    float newTab[SIZE];
+    float newTab[MATRIX_SIZE];
 
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < MATRIX_SIZE; i++)
     {
         newTab[i] = _data[i] - another[i];
     }
@@ -41,9 +41,9 @@ Matrix Matrix::operator-(const Matrix & another) const {
 }
 
 Matrix Matrix::operator*(const float & val) const {
-    float newTab[SIZE];
+    float newTab[MATRIX_SIZE];
 
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < MATRIX_SIZE; i++)
     {
         newTab[i] = _data[i] * val;
     }
@@ -52,7 +52,7 @@ Matrix Matrix::operator*(const float & val) const {
 }
 
 Matrix Matrix::operator*(const Matrix & another) const {
-    float newTab[SIZE] = {0};
+    float newTab[MATRIX_SIZE] = {0};
 
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {
@@ -247,7 +247,7 @@ Matrix& Matrix::operator=(const Matrix & another) {
 
     if(&another != this)
     {
-        for(int i = 0; i < SIZE; i++)
+        for(int i = 0; i < MATRIX_SIZE; i++)
         {
             _data[i] = another[i];
         }
