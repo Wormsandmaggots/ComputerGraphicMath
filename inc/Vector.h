@@ -28,6 +28,7 @@ public:
     float DotProduct(const Vector&) const;
     Vector CrossProduct(const Vector&) const;
     float AngleBetween(const Vector&) const;
+    bool isClose(Vector&, float) const;
 
     Vector operator/(const float&) const;
     Vector operator*(const float&) const;

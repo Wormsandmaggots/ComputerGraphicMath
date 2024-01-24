@@ -132,5 +132,10 @@ Vector::Vector() {
 
 }
 
+bool Vector::isClose(Vector& other, float error) const
+{
+    return std::abs(this->Len() - other.Len()) < error;
+}
+
 
 

@@ -30,7 +30,7 @@ public:
             for (int k = 0; k < 60; k++)
             {
                 if (screen[i][k])
-                    std::cout << "#";
+                    std::cout << "0";
                 else
                     std::cout << ".";
             }
@@ -39,28 +39,44 @@ public:
     }
 
     void RayCast(const Vector &cameraPosition, const Vector &cameraDirection) {
-        float pixelSize = 4.0f / 60.0f;
+        float pixelSize = 0.5f / 60.0f;
         float screenDistance = 1.0f;
 
         Vector screenPosition = cameraPosition + cameraDirection * screenDistance;
 
-        Vector worldUp{ 0, 0, 1 };
+        Vector worldUp{ 0, 1, 0 };
 
-        Vector screenLeft = ((screenPosition - cameraPosition) * -1).CrossProduct(worldUp);
-        //screenLeft.Normalize();
-        screenLeft.norm();
-        Vector screenDown = screenPosition.CrossProduct(screenLeft);
-        //screenDown.Normalize();
-        screenDown.norm();
+        Vector check(0.0, 1.0, 0.0);
+
+        if (cameraDirection.isClose(check, 0.1))
+        {
+            worldUp = Vector(0.0, 0.0, 1.0);
+        }
+
+        Vector diff = screenPosition - cameraPosition;
+        diff *= -1;
+        Vector screenLeft = diff.CrossProduct(worldUp).Normalize();
+
+        Vector screenDown = screenPosition.CrossProduct(screenLeft).Normalize();
+
+//        Vector screenLeft = ((screenPosition - cameraPosition) * -1).CrossProduct(worldUp);
+//        //screenLeft.Normalize();
+//        screenLeft.norm();
+//        Vector screenDown = screenPosition.CrossProduct(screenLeft);
+//        //screenDown.Normalize();
+//        screenDown.norm();
 
         for (int i = 0; i < 60; i++)
         {
             for (int k = 0; k < 60; k++)
             {
                 // Oblicz pozycję pixela na ekranie
-                Vector pixelLocation = screenPosition
-                                       + screenLeft * ((k - 30) * pixelSize)
-                                       + screenDown * ((i - 30) * pixelSize);
+//                Vector pixelLocation = screenPosition
+//                                       + screenLeft * ((k - 30) * pixelSize)
+//                                       + screenDown * ((i - 30) * pixelSize);
+
+                Vector pixelLocation = screenPosition + (screenLeft * ((k - 30) * pixelSize));
+                pixelLocation = pixelLocation + (screenDown * ((i - 30) * pixelSize));
 
                 Line line = Line::StartToEnd(cameraPosition, pixelLocation);
                 screen[i][k] = Intersections::IsRayIntersectAABBUnitBox(line);

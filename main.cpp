@@ -2,11 +2,10 @@
 #include <cmath>
 #include <windows.h>
 
-#include "Quaternion.h"
 #include "RTX.h"
 #include "Vector.h"
 
-#define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006
+#define PI 3.14
 
 void redraw(float pitch, float yaw, float radius)
 {
@@ -32,14 +31,12 @@ void redraw(float pitch, float yaw, float radius)
 
 int main()
 {
-    // Don't @ me.
     float pitch = 0.0f;
     float yaw = 0.0f;
     float radius = 10.0f;
 
     redraw(pitch, yaw, radius);
 
-    // WINAPIIIIIIIIIIiiiiiiiiiii-
     HANDLE hstdin;
     DWORD mode;
 
