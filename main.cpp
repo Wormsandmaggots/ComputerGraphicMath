@@ -26,14 +26,13 @@ void redraw(float pitch, float yaw, float radius)
     std::system("cls");
     raytracer.RayCast(camPos, camDir);
     raytracer.Draw();
-    std::cout << "debugging: [" << pitch << "; " << yaw << "; " << radius << "]\ncampos: " << camPos.ToString() << "\ncamdir: " << camDir.ToString() << std::endl;
 }
 
 int main()
 {
-    float pitch = 0.0f;
-    float yaw = 0.0f;
-    float radius = 10.0f;
+    float pitch = 0.0f;//obrot wokol osi y
+    float yaw = 0.0f;//obrot wokol osi x
+    float radius = 10.0f;//odleglosc od srodka
 
     redraw(pitch, yaw, radius);
 
@@ -92,7 +91,7 @@ int main()
             if (pitch >= 360.0f) pitch -= 360.0f;
             else if (pitch < 0.0f) pitch += 360.0f;
 
-            if (radius < 3.0f) radius = 2.0f; // when radius == 1.0f we get an exception -_-
+            if (radius < 3.0f) radius = 2.0f; // when radius == 1.0f we get an exception
 
             redraw(pitch, yaw, radius);
         }
