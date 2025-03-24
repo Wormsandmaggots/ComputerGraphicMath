@@ -42,7 +42,7 @@ public:
     bool operator==(const Vector&) const;
 
 private:
-    float _x, _y, _z;
+    float _x = 0, _y = 0, _z = 0;
 
     void x(const float& x) { _x = x; };
     void y(const float& y) { _y = y; };

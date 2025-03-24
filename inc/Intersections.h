@@ -8,9 +8,87 @@
 #include <vector>
 #include <optional>
 
+#include "Ray.h"
+#include "Triangle.h"
+
+float e = 0.0000001;
 
 class Intersections {
 public:
+
+    static bool SphereRayIntersect(const Sphere &sphere, const Ray &ray)
+    {
+        const Vector rayMinusSphere = ray.start - sphere.c;
+        const float rayMinusSphereLen = rayMinusSphere.Len();
+        float b = (rayMinusSphere * 2).DotProduct(ray.dir);
+        float c = rayMinusSphereLen * rayMinusSphereLen - sphere.r * sphere.r;
+        float delta = b * b - 4 * c;
+
+        return delta >= 0;
+    }
+
+    static std::vector<Vector> SphereRayIntersectPoints(Sphere &sphere, const Ray &ray) {
+        std::vector<Vector> points;
+
+        if(SphereRayIntersect(sphere, ray)) {
+            const Vector rayMinusSphere = ray.start - sphere.c;
+            const float rayMinusSphereLen = rayMinusSphere.Len();
+            const float b = 2 * rayMinusSphere.DotProduct(ray.dir);
+            const float c = rayMinusSphereLen * rayMinusSphereLen - sphere.r * sphere.r;
+            float delta = b * b - 4 * c;
+
+            const float t1 = (-b - sqrt(delta)) / 2;
+            const float t2 = (-b + sqrt(delta)) / 2;
+
+            points.push_back(ray.start + ray.dir * t1);
+
+            if(delta > 0)
+                points.push_back(ray.start + ray.dir * t2);
+        }
+
+        return points;
+    }
+
+    static Vector RayPlaneIntersect(Plane &plane, const Ray &ray) {
+        float d = -plane.n.DotProduct(plane.p);
+        float t = -(plane.n.DotProduct(ray.start) + d) / plane.n.DotProduct(ray.dir);
+        return ray.start + ray.dir * t;
+    }
+
+    static bool RayTriangleIntersect2(const Ray& ray, const Triangle &triangle) {
+        float d = triangle.normal.DotProduct(triangle.a);
+
+    }
+
+    static bool RayTriangleIntersect(const Ray& ray, const Triangle &triangle) {
+
+        const float dot = triangle.normal.DotProduct(ray.dir);
+
+
+        if(fabsf(dot) < e)
+            return false;
+
+        const float t = triangle.normal.DotProduct(triangle.a - ray.start) / dot;
+
+        if(t < 0)
+            return false;
+
+        Vector ip = ray.start + ray.dir * t;
+
+        Vector ap = ip - triangle.a;
+        Vector bp = ip - triangle.b;
+        Vector cp = ip - triangle.c;
+
+        Vector v1 = triangle.ab.CrossProduct(ap);
+        Vector v2 = triangle.ac.CrossProduct(bp);
+        Vector v3 = triangle.cb.CrossProduct(cp);
+
+        return v1.DotProduct(triangle.normal) >= 0 &&
+            v2.DotProduct(triangle.normal) >= 0 &&
+                v3.DotProduct(triangle.normal) >= 0;
+    }
+
+
     // Oblicza punkt przecięcia dwóch prostych
     static Vector LineIntersect(const Line& line1, const Line& line2) {
         Vector cross = line1.v.CrossProduct(line2.v);

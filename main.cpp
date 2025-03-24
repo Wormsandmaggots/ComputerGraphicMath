@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <iostream>
 #include "Vector.h"
 #include "Matrix.h"
@@ -9,17 +10,133 @@
 #include "Sphere.h"
 #include "Intersections.h"
 #include <cmath>
-#define PI 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006
 
+#include "Ray.h"
+#define PI 3.14
+
+#pragma region math
 void Zadanie1();
 void Zadanie2();
 void Zadanie3();
 void Zadanie4();
+#pragma endregion
+
+void Lab1();
 
 int main() {
-    Zadanie4();
 
+    Lab1();
     return 0;
+}
+
+void Lab1() {
+    Vector v(1, 2, 3);
+    Vector v2(3, 2, 1);
+
+    std::ofstream outFile("output.txt");
+
+    auto log = [&outFile](const std::string& message) {
+        std::cout << message;
+        outFile << message;
+    };
+
+    log(v.ToString() + "\n" + v2.ToString() + "\nCzy przemiennosc dodawania dziala?\n");
+    log(std::string((v + v2) == (v2 + v) ? "Tak" : "Nie") + "\n");
+    log("--------------------------------\n");
+
+    v = {0, 3, 0};
+    v2 = {5, 5, 0};
+
+    log("Kat miedzy " + v.ToString() + " oraz " + v2.ToString() + " jest rowny ");
+    log(std::to_string(v.AngleBetween(v2)) + " stopni\n");
+
+    log("--------------------------------\n");
+
+    v = {4, 5, 1};
+    v2 = {4, 1, 3};
+
+    Vector v_1 = v.CrossProduct(v2);
+
+    log("Czy " + v_1.ToString() + " jest prostopadly do " + v.ToString() + " oraz " + v2.ToString() + "\n");
+    log(std::string(v.DotProduct(v_1) == 0 ? "Tak" : "Nie") + "\n");
+
+    log("--------------------------------\n");
+    log("Znormalizowany wektor ma postac: " + v_1.Normalize().ToString() + "\n");
+
+    Sphere s = Sphere(Vector(), 10);
+    Ray r1(Vector(0,0,-20), Vector(0,0,1));
+    Ray r2(Vector(0,0,-20), Vector(0,1,0));
+
+    auto r1IntersectPoints = Intersections::SphereRayIntersectPoints(s, r1);
+    auto r2IntersectPoints = Intersections::SphereRayIntersectPoints(s, r2);
+
+    log("--------------------------------\n");
+    log("Przeciecie sfery z promieniem r1: \n");
+
+    if(r1IntersectPoints.empty()) log("Brak \n");
+
+    for (const auto& point : r1IntersectPoints) {
+        log(point.ToString() + "\n");
+    }
+
+    log("--------------------------------\n");
+    log("Przeciecie sfery z promieniem r2: \n");
+
+    if(r2IntersectPoints.empty()) log("Brak \n");
+
+    for (const auto& point : r2IntersectPoints) {
+        log(point.ToString() + "\n");
+    }
+
+    Ray r3(Vector(10,-2,0), Vector(0,1,0));
+    auto r3IntersectPoints = Intersections::SphereRayIntersectPoints(s, r3);
+
+    log("--------------------------------\n");
+    log("Przeciecie sfery z promieniem r3(tylko jeden punkt): \n");
+
+    if(r3IntersectPoints.empty()) log("Brak \n");
+
+    for (const auto& point : r3IntersectPoints) {
+        log(point.ToString() + "\n");
+    }
+
+    Plane p(0, 1, 1, 0);
+
+    Vector y(0,1,0);
+    Vector z(0,0,1);
+
+    float l1 = p.n.AngleBetween(y);
+    float l2 = p.n.AngleBetween(z);
+
+    Vector z14 = Intersections::RayPlaneIntersect(p, r2);
+
+    Triangle t(Vector(0,0,0), Vector(1,0,0), Vector(0,1,0));
+
+    {
+        log("--------------------------------\n");
+        Vector p1(-1, 0.5, 0);
+        Vector p2(1, 0.5, 0);
+        Ray p1p2 = Ray::StartToEnd(p1, p2);
+        log(Intersections::RayTriangleIntersect(p1p2, t) ? "Przecina\n" : "Nie przecina\n");
+    }
+
+    {
+        log("--------------------------------\n");
+        Vector p1(2, -1, 0);
+        Vector p2(2, 2, 0);
+        Ray p1p2 = Ray::StartToEnd(p1, p2);
+        log(Intersections::RayTriangleIntersect(p1p2, t) ? "Przecina\n" : "Nie przecina\n");
+    }
+
+    {
+        log("--------------------------------\n");
+        Vector p1(0, 0, -1);
+        Vector p2(0, 0, 1);
+        Ray p1p2 = Ray::StartToEnd(p1, p2);
+        log(Intersections::RayTriangleIntersect(p1p2, t) ? "Przecina\n" : "Nie przecina\n");
+    }
+
+    outFile.close();
 }
 
 void Zadanie1()
